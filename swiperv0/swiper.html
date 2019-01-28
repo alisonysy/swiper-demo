@@ -44,7 +44,11 @@
     timer = setTimer();
     function setTimer(){
       return setInterval(() => {
-      n +=1;
+      if (n<buttons.length){
+        n+=1;
+      }else{
+        n=0;
+      }
       userClick();
     }, 1500);
     }
