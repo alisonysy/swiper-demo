@@ -53,11 +53,11 @@
     }, 1500);
     }
     
-    $('.win').on('mouseover',function(){
+    $('.win').on('mouseenter',function(){
       window.clearInterval(timer)
     })
     $('.win').on('mouseleave',function(){
-      setTimer();
+      timer = setTimer();
     })
     
   
