@@ -18,6 +18,16 @@ $('#slideWindow').on('mouseenter',function(){
   },2000)
 })
 
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){
+    window.clearInterval(timer);
+  }else{
+    timer=setInterval(function(){
+      goToSlide(current+1);
+    },2000)
+  }
+})
+
 function bindEvent(){
   $('#slideWindow>#menu').on('click','button',function(q){
     let $currentButton = $(q.currentTarget);
