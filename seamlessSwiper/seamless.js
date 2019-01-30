@@ -1,14 +1,7 @@
 var n = 1;
 initial();
 
-
-function initial(){
-  var n = 1;
-  $(`.images > img:nth-child(${n})`).addClass('current')
-    .siblings().addClass('enter');
-}
-
-setInterval(() => {
+let timer = setInterval(() => {
   makeLeave(getImage(n))
     .one('transitionend',function(q){
       makeEnter($(q.currentTarget))
@@ -16,6 +9,45 @@ setInterval(() => {
   makeCurrent(getImage(n+1));
     n +=1
 }, 3000);
+
+document.addEventListener('visibilitychange',function(e){
+  if(document.hidden){
+    window.clearInterval(timer);
+  }else{
+    timer = setInterval(() => {
+      makeLeave(getImage(n))
+        .one('transitionend',function(q){
+          makeEnter($(q.currentTarget))
+        });
+      makeCurrent(getImage(n+1));
+        n +=1
+    }, 3000);
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*dont' have to look down */
+function initial(){
+  var n = 1;
+  $(`.images > img:nth-child(${n})`).addClass('current')
+    .siblings().addClass('enter');
+}
 
 function getImage(n){
   return $(`.images > img:nth-child(${x(n)})`)
