@@ -6,10 +6,66 @@ let current = 0;
 makeFakeSlides();
 $slides.css({transform:'translateX(-500px)'});
 bindEvents();
+$(next).on('click', function(){
+  goToSlide(current+1)
+})
+$(previous).on('click', function(){
+  goToSlide(current-1)
+})
 
-
+let timer = setInterval(function(){
+  goToSlide(current+1)
+},2500)
+$('.container').on('mouseenter',function(){
+  window.clearInterval(timer)
+}).on('mouseleave',function(){
+  timer= setInterval(function(){
+    goToSlide(current+1)
+  },2500);
+})
 
 function bindEvents(){
+
+  $('#buttonWrapper').on('click','button',function(e){
+    let $button = $(e.currentTarget);
+    let index = $button.index();
+    goToSlide(index);
+  })
+}
+
+//goToSlide is important!
+function goToSlide(index){
+  if(index>$buttons.length-1){
+    index=0;
+  }else if (index<0){
+    index=$buttons.length - 1;
+  }
+  if(current === $buttons.length-1 && index === 0){
+    $slides.css({transform:`translateX(${-($buttons.length+1)*500}px)`})
+      .one('transitionend',function(){
+        $slides.hide().offset()
+        $slides.css({transform:`translateX(${-(index+1)*500}px)`}).show()
+      })
+  }else if(current === 0 && index === $buttons.length-1){
+    $slides.css({transform:'translateX(0px)'})
+      .one('transitionend',function(){
+        $slides.hide().offset()
+        $slides.css({transform:`translateX(${-(index+1)*500}px)`}).show()
+      })
+  }else{
+    $slides.css({transform:`translateX(${-(index+1)*500}px)`})
+  }
+  current =index;
+}
+
+function makeFakeSlides(){
+  let $firstCopy = $images.eq(0).clone(true)
+  let $lastCopy = $images.eq($images.length-1).clone(true)
+  
+  $slides.append($firstCopy)
+  $slides.prepend($lastCopy)
+}
+/*the previous version in bindEvents()
   $buttons.eq(0).on('click',function(){
     if(current == 2){
       $slides.css({transform:'translateX(-2000px)'})
@@ -38,15 +94,4 @@ function bindEvents(){
       $slides.css({transform:'translateX(-1500px)'})
       current = 2
     }
-  })
-}
-
-
-
-function makeFakeSlides(){
-  let $firstCopy = $images.eq(0).clone(true)
-  let $lastCopy = $images.eq($images.length-1).clone(true)
-  
-  $slides.append($firstCopy)
-  $slides.prepend($lastCopy)
-}
+  })*/
