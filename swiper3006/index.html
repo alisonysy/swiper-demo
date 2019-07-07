@@ -61,6 +61,25 @@
       transform: translate(-1.5em, -50%);
       border-left: 20px solid #fff;
     }
+
+    /* index btns */
+    .idx{
+      position: absolute;
+      left:50%;
+      bottom:0;
+      transform: translateX(-50%);
+    }
+    .idx span{
+      display: inline-block;
+      width:8px;
+      height:4px;
+      background: rgba(255, 255, 255, 0.5);
+      margin-right: 2px;
+      transition: all .5s ease-in;
+    }
+    .idx span.active{
+      width:20px;
+    }
   </style>
 </head>
 
@@ -85,6 +104,13 @@
     </ul>
     <button id="prev"></button>
     <button id="next"></button>
+    <div class="idx">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 
   <script src="./main.js"></script>
